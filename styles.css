@@ -1,0 +1,79 @@
+/* Mismo verde del método gráfico para resaltar lo óptimo */
+.fila-optima {
+    --bs-table-bg: #edf7f4;
+    font-weight: 600;
+}
+
+/* Celda de la matriz (la etiqueta xij va pequeña arriba a la izquierda) */
+.celda {
+    position: relative;
+    min-width: 90px;
+}
+
+.etiqueta-var {
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    font-size: .68rem;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.celda .costo {
+    padding-top: 1.1rem;
+    text-align: right;
+}
+
+/* Encabezados(como lo hago en Excel): azul oscuro con texto blanco */
+.grupo {
+    background: #0B3040 !important;
+    color: #fff !important;
+}
+
+.grupo input {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, .4);
+    text-align: center;
+    font-weight: 600;
+}
+
+.grupo input::placeholder {
+    color: rgba(255, 255, 255, .85);
+}
+
+/* Oferta (rosa) y demanda (durazno) con color distinto a las variables */
+.zona-oferta {
+    background: #f6e1f3 !important;
+}
+
+.zona-demanda {
+    background: #fde6d8 !important;
+}
+
+.ficticia {
+    font-style: italic;
+    color: #6c757d;
+}
+
+.termino {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+/* Caja que remarca la solución final */
+.solucion {
+    display: inline-block;
+    border: 2px solid #0D3512;
+    border-radius: .4rem;
+    background: #edf7f4;
+    padding: .05rem .5rem;
+    font-weight: 700;
+    font-family: var(--bs-font-monospace);
+}
+
+.solucion-z {
+    font-size: 1.15rem;
+    padding: .3rem .8rem;
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transporte y asignación</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Solver de programación lineal: versión fijada (1.0.3) para que no cambie sola y de error. Expone una variable global llamada "solver". -->
+  <script src="https://cdn.jsdelivr.net/npm/javascript-lp-solver@1.0.3/dist/solver.global.js"></script>
+
+</head>
+<body class="bg-light m-0 p-0">
+<div class="container py-4">
+  <h1 class="display-6 fw-bold mb-1 text-center">Modelos de Transporte y Asignación</h1>
+  <p class="text-secondary fst-italic">Resuelve problemas de minimización o maximización con el método simplex</p>
+
+  <!-- Formulario de entrada. Validación en el script -->
+  <form id="formulario" novalidate>
+
+    <!-- 1. Configuración -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h5">Configuración</h2>
+        <div class="row g-3 align-items-end">
+          <div class="col-sm-6 col-lg-3">
+            <label for="tipo" class="form-label">Modelo</label>
+            <select id="tipo" class="form-select">
+              <option value="transporte">Transporte</option>
+              <option value="asignacion">Asignación</option>
+            </select>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <label for="objetivo" class="form-label">Objetivo</label>
+            <select id="objetivo" class="form-select">
+              <option value="min">Minimizar</option>
+              <option value="max">Maximizar</option>
+            </select>
+          </div>
+          <div class="col-6 col-lg-3">
+            <label for="numFilas" class="form-label" id="etqFilas">Orígenes (filas)</label>
+            <input id="numFilas" type="number" min="1" max="10" value="3" class="form-control">
+          </div>
+          <div class="col-6 col-lg-3">
+            <label for="numCols" class="form-label" id="etqCols">Destinos (columnas)</label>
+            <input id="numCols" type="number" min="1" max="10" value="3" class="form-control">
+          </div>
+        </div>
+        <div id="errorTam" class="text-danger small mt-2" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- 2. Matriz de costos, igual, la tabla la crea el script -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h5">Matriz de costos</h2>
+        <p class="small text-muted" id="notaMatriz"></p>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered bg-white align-middle mb-0" id="tablaMatriz"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Restricciones -->
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="h5">Restricciones adicionales <span class="text-secondary fs-6 fw-normal">(opcional)</span></h2>
+        <p class="small text-secondary mb-2" id="notaRestricciones"></p>
+        <div id="restriccionesExtra"></div>
+        <button type="button" id="btnAgregarRestriccion" class="btn btn-outline-primary btn-sm mt-2">+ Agregar restricción</button>
+      </div>
+    </div>
+
+    <!-- aria-live para que los lectores de pantalla anuncien los errores -->
+    <div id="alertas" aria-live="assertive"></div>
+    <button type="submit" id="btnCalcular" class="btn btn-primary mb-4">Calcular</button>
+  </form>
+
+  <!-- Resultados ocultos hasta que haya una solución -->
+  <div id="resultados" style="display:none" aria-live="polite">
+    <div id="resultadoAlerta"></div>
+    <div id="avisos"></div>
+
+    <h2 class="h5 mt-4">1. Variables de decisión</h2>
+    <div id="modeloVariables"></div>
+
+    <h2 class="h5 mt-4">2. Función objetivo</h2>
+    <p class="font-monospace small text-break bg-white border rounded p-2" id="modeloFO"></p>
+
+    <h2 class="h5 mt-4">3. Restricciones</h2>
+    <div class="bg-white border rounded p-2 font-monospace small" id="modeloRestricciones"></div>
+
+    <h2 class="h5 mt-4">4. Matriz de solución</h2>
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered bg-white text-center align-middle" id="tablaSolucion"></table>
+    </div>
+
+    <h2 class="h5 mt-4">5. Valor de las variables de decisión</h2>
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="soloNoCero">
+      <label class="form-check-label" for="soloNoCero">Mostrar solo las variables distintas de 0</label>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered bg-white" id="tablaVariables"></table>
+    </div>
+
+    <h2 class="h5 mt-4">6. Solución e interpretación</h2>
+    <div id="interpretacion"></div>
+  </div>
+</div>
+
+<!-- * ======= SCRIPT.JS ========= -->
+<script src="script.js"></script>
+</body>
+</html>
